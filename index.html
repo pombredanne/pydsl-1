@@ -30,37 +30,127 @@
       <section>
         <h1>DESCRIPTION</h1>
 
-<p>pydsl is an environment for creating and using formal and natural languages. 
+<p>pydsl is a language workbench written in python
 The main idea is to allow an easy way to define, use and combine DSLs to create programs.
-<a href="https://github.com/nesaro/pydsl/wiki/ColonyGoal">ColonyGoal</a></p>
-
-<h1>REQUIREMENTS</h1>
+pydsl support several grammar specification formats:</p>
 
 <ul>
-<li>python &gt;= 3.0</li>
-<li>pydsl contrib package ( <a href="https://github.com/nesaro/pydsl-contrib">https://github.com/nesaro/pydsl-contrib</a> )</li>
+<li>regular expressions</li>
+<li>pydsl BNF format</li>
+<li>ANLTR .g format (not supported yet)</li>
+<li>mongo database query dictionaries</li>
+<li>python ply module (only check support)</li>
+</ul><p>each grammar definition have the following properties:</p>
+
+<ul>
+<li>enum(gd): yields a list of accepted words</li>
+<li>first(gd): yields a list of the first accepted subword/char</li>
+<li>minsize(gd): length of the smaller accepted word</li>
+<li>maxsize(gd): length of the biggest accepted word</li>
+</ul><p>pydsl offer a set of functionalities that use <em>grammar definitions</em></p>
+
+<ul>
+<li>check(gd, input): test the input string against the spec</li>
+<li>validate(gd, input): test the input string against the spec. In case of failure, it returns a list of errors</li>
+<li>guess(input, [gd]): returns a list of <em>grammar definitions</em> that are compatible with the input</li>
+<li>partition(gd, input, tag): returns the parts of the input according to a tag</li>
+<li>extract(gd, input): extract all the slices of the input that are accepted by <em>grammar definition</em>
+</li>
+<li>distance(gd, input1, input2): returns the distance between two inputs according to <em>grammar definition</em>
+</li>
+<li>translate(gd, input): generic translator
+
+<ul>
+<li>ast(astdefinition, input): creates an abstract syntax tree according to astdefinition</li>
+<li>sdt( sdt, ast): Performs an AST translation using a Syntax Directed
+Translator</li>
+</ul>
+</li>
+</ul><p>It also offers library related functionalities:</p>
+
+<ul>
+<li>search(query): search for an element within a memory</li>
+<li>info(identifier): returns information about the element</li>
+<li>translations(identifier): returns a list of available translators for identifier</li>
 </ul><h1>INSTALLATION</h1>
 
-<p>python setup.py install</p>
+<ul>
+<li>disttools:
 
-<h1>USAGE</h1>
+<ul>
+<li>python3 setup.py install</li>
+</ul>
+</li>
+<li>pip:
+
+<ul>
+<li>pip install git+<a href="http://github.com/nesaro/pydsl.git">http://github.com/nesaro/pydsl.git</a>
+</li>
+<li>pip install git+<a href="http://github.com/nesaro/pydsl-contrib.git">http://github.com/nesaro/pydsl-contrib.git</a>
+</li>
+</ul>
+</li>
+</ul><h1>USAGE</h1>
+
+<p>To use pydsl as a library for your code, you can:</p>
+
+<h2>Loading content from files</h2>
+
+<pre><code>from pydsl.Memory.Storage.File.BNF import load_bnf_file
+grammardefinition = loand_bnf_file('myfile.bnf')
+from pydsl.Memory.Loader import *
+mychecker = load_checker(grammardefinition)
+mychecker('mystring') # returns True or False
+</code></pre>
+
+<h2>Loading content from a directory</h2>
+
+<p>First store your grammar definitions in a directory,</p>
+
+<pre><code>from pydsl.Memory.Storage.Directory.Grammar import GrammarDirStorage
+from pydsl.Guess import Guesser
+a = GrammarDirStorage("directory/")
+guess = Guesser([a])
+guess('string')
+</code></pre>
+
+<h2>Using pydsl-contrib</h2>
+
+<ul>
+<li>Download pydsl-contrib repositorie from github</li>
+<li>install with python3 setup.py install</li>
+<li>use default libraries and transformers</li>
+</ul><p>code:</p>
+
+<pre><code>from pydsl.Memory.Loader import *
+mychecker = load_checker(integer)
+mytransformer = load_function('inttohex')
+result = a({'input':'123'})
+</code></pre>
+
+<h1>BINARIES</h1>
 
 <h2>Memory Management</h2>
 
 <ul>
-<li>info.py: Retrieves an element from memory and show a summary</li>
+<li>info.py: Retrieves an element from memory and shows a summary</li>
 <li>search.py: Searchs memory </li>
 </ul><h2>Grammars</h2>
 
 <ul>
-<li>check.py: Checks if input data belongs to type</li>
+<li>check.py: Checks if input data belongs to a grammar</li>
 <li>guess:py: Determines input data type</li>
 <li>validate.py: Perform a validation routine for user data according to a grammar</li>
 </ul><h2>Functions</h2>
 
 <ul>
 <li>translate.py: Process user input using a function</li>
-<li>convert.py: Same as translate, but restricted for files</li>
+</ul><h1>REQUIREMENTS</h1>
+
+<ul>
+<li>python &gt;= 3.0</li>
+<li>pydsl contrib package ( <a href="https://github.com/nesaro/pydsl-contrib">https://github.com/nesaro/pydsl-contrib</a> )</li>
+<li>optional: ply library ( <a href="http://www.dabeaz.com/ply/">http://www.dabeaz.com/ply/</a> )</li>
 </ul><h1>HELP</h1>
 
 <ul>
@@ -68,12 +158,12 @@ The main idea is to allow an easy way to define, use and combine DSLs to create 
 <li><a href="mailto:nesaro@gmail.com">nesaro@gmail.com</a></li>
 </ul><h1>LICENSE</h1>
 
-<p>see LICENSE file</p>
+<p>GPLv3, see LICENSE file</p>
 
 <h1>ABOUT</h1>
 
 <p>pydsl is a formal and natural language framework.
-Copyright (C) 2008-2012 Nestor Arocha Rodriguez (<a href="mailto:nesaro@gmail.com">nesaro@gmail.com</a>)</p>
+Copyright (C) 2008-2012 Nestor Arocha (<a href="mailto:nesaro@gmail.com">nesaro@gmail.com</a>)</p>
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/nesaro">nesaro</a></p>
