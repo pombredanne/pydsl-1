@@ -4,35 +4,47 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>Pydsl by nesaro</title>
-
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
     <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
   </head>
   <body>
-    <div class="wrapper">
+
       <header>
         <h1>Pydsl</h1>
         <p>Python Domain Specific Language Tools</p>
-
-        <p class="view"><a href="https://github.com/nesaro/pydsl">View the Project on GitHub <small>nesaro/pydsl</small></a></p>
-
-
-        <ul>
-          <li><a href="https://github.com/nesaro/pydsl/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/nesaro/pydsl/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/nesaro/pydsl">View On <strong>GitHub</strong></a></li>
-        </ul>
       </header>
+
+      <div id="banner">
+        <span id="logo"></span>
+
+        <a href="https://github.com/nesaro/pydsl" class="button fork"><strong>View On GitHub</strong></a>
+        <div class="downloads">
+          <span>Downloads:</span>
+          <ul>
+            <li><a href="https://github.com/nesaro/pydsl/zipball/master" class="button">ZIP</a></li>
+            <li><a href="https://github.com/nesaro/pydsl/tarball/master" class="button">TAR</a></li>
+          </ul>
+        </div>
+      </div><!-- end banner -->
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
       <section>
         <h1>DESCRIPTION</h1>
 
 <p>pydsl is a language workbench written in python
-The main idea is to allow an easy way to define, use and combine DSLs to create programs.
-pydsl support several grammar specification formats:</p>
+The main idea is to allow an easy way to define, use and combine DSLs to create programs.</p>
+
+<p>pydsl support several grammar specification formats:</p>
 
 <ul>
 <li>regular expressions</li>
@@ -50,23 +62,36 @@ pydsl support several grammar specification formats:</p>
 </ul><p>pydsl offer a set of functionalities that use <em>grammar definitions</em></p>
 
 <ul>
-<li>check(gd, input): test the input string against the spec</li>
 <li>validate(gd, input): test the input string against the spec. In case of failure, it returns a list of errors</li>
-<li>guess(input, [gd]): returns a list of <em>grammar definitions</em> that are compatible with the input</li>
 <li>partition(gd, input, tag): returns the parts of the input according to a tag</li>
-<li>extract(gd, input): extract all the slices of the input that are accepted by <em>grammar definition</em>
-</li>
+</ul><p>alphabet abstraction is also available. Alphabets are a set of symbols that are recognized using a regular grammar. Properties:</p>
+
+<ul>
+<li>symbols(ad): return the list of allowed symbols for this alphabet</li>
+</ul><p>functionalities that use <em>alphabets</em>:</p>
+
+<ul>
+<li>lexer(ad, input): Generates a tokenlist from a string (it is a special case of translate)</li>
+<li>mapper(ad, input): Converts a tokenlist from an alphabet into another alphabet</li>
+</ul><p>functionalities that use both <em>alphabets</em> and <em>grammar definitions</em>:</p>
+
+<ul>
+<li>guess(input, [gd]): returns a list of <em>grammar definitions</em> that are compatible with the input</li>
 <li>distance(gd, input1, input2): returns the distance between two inputs according to <em>grammar definition</em>
 </li>
-<li>translate(gd, input): generic translator
+<li>check(d, input): test the input string against the spec</li>
+<li>extract(gd, input): extract all the slices of the input that are accepted by the definition </li>
+</ul><p>translation functionalities</p>
+
+<ul>
+<li>translate(td, input): generic translator
 
 <ul>
 <li>ast(astdefinition, input): creates an abstract syntax tree according to astdefinition</li>
-<li>sdt( sdt, ast): Performs an AST translation using a Syntax Directed
-Translator</li>
+<li>sdt( sdt, ast): Performs an AST translation using a Syntax Directed Translator</li>
 </ul>
 </li>
-</ul><p>It also offers library related functionalities:</p>
+</ul><p>pydsl also offers library related functionalities:</p>
 
 <ul>
 <li>search(query): search for an element within a memory</li>
@@ -85,8 +110,6 @@ Translator</li>
 
 <ul>
 <li>pip install git+<a href="http://github.com/nesaro/pydsl.git">http://github.com/nesaro/pydsl.git</a>
-</li>
-<li>pip install git+<a href="http://github.com/nesaro/pydsl-contrib.git">http://github.com/nesaro/pydsl-contrib.git</a>
 </li>
 </ul>
 </li>
@@ -114,13 +137,7 @@ guess = Guesser([a])
 guess('string')
 </code></pre>
 
-<h2>Using pydsl-contrib</h2>
-
-<ul>
-<li>Download pydsl-contrib repositorie from github</li>
-<li>install with python3 setup.py install</li>
-<li>use default libraries and transformers</li>
-</ul><p>code:</p>
+<h2>Using contrib</h2>
 
 <pre><code>from pydsl.Memory.Loader import *
 mychecker = load_checker(integer)
@@ -145,11 +162,47 @@ result = a({'input':'123'})
 
 <ul>
 <li>translate.py: Process user input using a function</li>
-</ul><h1>REQUIREMENTS</h1>
+</ul><h1>CONTRIB</h1>
+
+<p>contrib directory contains several types of elements. Those elements are either imported by colony or used as a function argument for their binaries.</p>
 
 <ul>
-<li>python &gt;= 3.0</li>
-<li>pydsl contrib package ( <a href="https://github.com/nesaro/pydsl-contrib">https://github.com/nesaro/pydsl-contrib</a> )</li>
+<li>board: Boards are Functions, therefore they can be used as an argument for:
+
+<ul>
+<li>translate: translate -e input -t boardname</li>
+</ul>
+</li>
+<li>grammar: Grammar are Types; they can be used with the following programs:
+
+<ul>
+<li>check: check -e expression grammarname</li>
+<li>extract: extract -e expression grammarname</li>
+<li>validate: extract -e expression grammarname</li>
+</ul>
+</li>
+<li>procedure: procedure are functions, but have no input 
+
+<ul>
+<li>translate: translate -t procedurename</li>
+</ul>
+</li>
+<li>board: Transformer are Functions too:
+
+<ul>
+<li>translate: translate -e input -t functionname</li>
+</ul>
+</li>
+<li>dict/filetype.dict: A list of filetypes, which are types</li>
+<li>dict/refexp.dict: A list of Regular expressions, which are types</li>
+</ul><p>search program will find any element within the library.
+info gives a summary for an element
+guess returns a list of the types that match the input element</p>
+
+<h1>REQUIREMENTS</h1>
+
+<ul>
+<li>python &gt;= 2.7</li>
 <li>optional: ply library ( <a href="http://www.dabeaz.com/ply/">http://www.dabeaz.com/ply/</a> )</li>
 </ul><h1>HELP</h1>
 
@@ -162,15 +215,15 @@ result = a({'input':'123'})
 
 <h1>ABOUT</h1>
 
-<p>pydsl is a formal and natural language framework.
+<p>pydsl is a formal language framework.
 Copyright (C) 2008-2012 Nestor Arocha (<a href="mailto:nesaro@gmail.com">nesaro@gmail.com</a>)</p>
       </section>
       <footer>
-        <p>This project is maintained by <a href="https://github.com/nesaro">nesaro</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+        <p>Project maintained by <a href="https://github.com/nesaro">nesaro</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></small></p>
       </footer>
     </div>
-    <script src="javascripts/scale.fix.js"></script>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
     
   </body>
 </html>
