@@ -1,55 +1,46 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Pydsl by nesaro</title>
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="javascripts/main.js"></script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Pydsl : Python Domain Specific Language Tools" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Pydsl</title>
   </head>
+
   <body>
 
-      <header>
-        <h1>Pydsl</h1>
-        <p>Python Domain Specific Language Tools</p>
-      </header>
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/nesaro/pydsl">View on GitHub</a>
 
-      <div id="banner">
-        <span id="logo"></span>
+          <h1 id="project_title">Pydsl</h1>
+          <h2 id="project_tagline">Python Domain Specific Language Tools</h2>
 
-        <a href="https://github.com/nesaro/pydsl" class="button fork"><strong>View On GitHub</strong></a>
-        <div class="downloads">
-          <span>Downloads:</span>
-          <ul>
-            <li><a href="https://github.com/nesaro/pydsl/zipball/master" class="button">ZIP</a></li>
-            <li><a href="https://github.com/nesaro/pydsl/tarball/master" class="button">TAR</a></li>
-          </ul>
-        </div>
-      </div><!-- end banner -->
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/nesaro/pydsl/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/nesaro/pydsl/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
 
-    <div class="wrapper">
-      <nav>
-        <ul></ul>
-      </nav>
-      <section>
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
         <h1>DESCRIPTION</h1>
 
-<p>pydsl is a language workbench written in python
-The main idea is to allow an easy way to define, use and combine DSLs to create programs.</p>
+<p>pydsl is a language library written in python
+The main idea is to allow an easy way to define, use and combine DSLs to create programs and provide tools around them.</p>
 
 <p>pydsl support several grammar specification formats:</p>
 
 <ul>
 <li>regular expressions</li>
 <li>pydsl BNF format</li>
-<li>ANLTR .g format (not supported yet)</li>
 <li>mongo database query dictionaries</li>
 <li>python ply module (only check support)</li>
 </ul><p>each grammar definition have the following properties:</p>
@@ -59,7 +50,7 @@ The main idea is to allow an easy way to define, use and combine DSLs to create 
 <li>first(gd): yields a list of the first accepted subword/char</li>
 <li>minsize(gd): length of the smaller accepted word</li>
 <li>maxsize(gd): length of the biggest accepted word</li>
-</ul><p>pydsl offer a set of functionalities that use <em>grammar definitions</em></p>
+</ul><p>pydsl offer a set of functions that use <em>grammar definitions</em></p>
 
 <ul>
 <li>validate(gd, input): test the input string against the spec. In case of failure, it returns a list of errors</li>
@@ -68,12 +59,12 @@ The main idea is to allow an easy way to define, use and combine DSLs to create 
 
 <ul>
 <li>symbols(ad): return the list of allowed symbols for this alphabet</li>
-</ul><p>functionalities that use <em>alphabets</em>:</p>
+</ul><p>functions that use <em>alphabets</em>:</p>
 
 <ul>
 <li>lexer(ad, input): Generates a tokenlist from a string (it is a special case of translate)</li>
 <li>mapper(ad, input): Converts a tokenlist from an alphabet into another alphabet</li>
-</ul><p>functionalities that use both <em>alphabets</em> and <em>grammar definitions</em>:</p>
+</ul><p>functions that use both <em>alphabets</em> and <em>grammar definitions</em>:</p>
 
 <ul>
 <li>guess(input, [gd]): returns a list of <em>grammar definitions</em> that are compatible with the input</li>
@@ -81,7 +72,7 @@ The main idea is to allow an easy way to define, use and combine DSLs to create 
 </li>
 <li>check(d, input): test the input string against the spec</li>
 <li>extract(gd, input): extract all the slices of the input that are accepted by the definition </li>
-</ul><p>translation functionalities</p>
+</ul><p>translation functions:</p>
 
 <ul>
 <li>translate(td, input): generic translator
@@ -91,11 +82,11 @@ The main idea is to allow an easy way to define, use and combine DSLs to create 
 <li>sdt( sdt, ast): Performs an AST translation using a Syntax Directed Translator</li>
 </ul>
 </li>
-</ul><p>pydsl also offers library related functionalities:</p>
+</ul><p>pydsl also offers library related functions:</p>
 
 <ul>
-<li>search(query): search for an element within a memory</li>
-<li>info(identifier): returns information about the element</li>
+<li>manager s query: search for an element within a memory</li>
+<li>manager i identifier: returns information about the element</li>
 <li>translations(identifier): returns a list of available translators for identifier</li>
 </ul><h1>INSTALLATION</h1>
 
@@ -130,9 +121,9 @@ mychecker('mystring') # returns True or False
 
 <p>First store your grammar definitions in a directory,</p>
 
-<pre><code>from pydsl.Memory.Storage.Directory.Grammar import GrammarDirStorage
+<pre><code>from pydsl.Memory.Storage.Directory import DirStorage
 from pydsl.Guess import Guesser
-a = GrammarDirStorage("directory/")
+a = DirStorage("directory/")
 guess = Guesser([a])
 guess('string')
 </code></pre>
@@ -150,8 +141,7 @@ result = a({'input':'123'})
 <h2>Memory Management</h2>
 
 <ul>
-<li>info.py: Retrieves an element from memory and shows a summary</li>
-<li>search.py: Searchs memory </li>
+<li>manager.py : Searchs element, displays information</li>
 </ul><h2>Grammars</h2>
 
 <ul>
@@ -208,6 +198,7 @@ guess returns a list of the types that match the input element</p>
 
 <ul>
 <li><a href="http://github.com/nesaro/pydsl">http://github.com/nesaro/pydsl</a></li>
+<li><a href="http://pydsl.blogspot.co.uk">http://pydsl.blogspot.co.uk</a></li>
 <li><a href="mailto:nesaro@gmail.com">nesaro@gmail.com</a></li>
 </ul><h1>LICENSE</h1>
 
@@ -216,14 +207,19 @@ guess returns a list of the types that match the input element</p>
 <h1>ABOUT</h1>
 
 <p>pydsl is a formal language framework.
-Copyright (C) 2008-2012 Nestor Arocha (<a href="mailto:nesaro@gmail.com">nesaro@gmail.com</a>)</p>
+Copyright (C) 2008-2013 Nestor Arocha (<a href="mailto:nesaro@gmail.com">nesaro@gmail.com</a>)</p>
       </section>
-      <footer>
-        <p>Project maintained by <a href="https://github.com/nesaro">nesaro</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></small></p>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Pydsl maintained by <a href="https://github.com/nesaro">nesaro</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
       </footer>
     </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+
     
+
   </body>
 </html>
